@@ -3,6 +3,16 @@
 #include <iostream>
 #include <stdexcept>
 #include <cstdlib> //EXIT_SUCCESS - EXIT_FAILURE
+#include <vector>
+
+//VARIABLES
+const uint32_t WIDTH = 800;
+const uint32_t HEIGHT = 600;
+//FUNCTIONS
+//VALIDATION_LAYERS
+
+
+
 
 class HelloTriangleApplication {
 public:
@@ -17,12 +27,18 @@ public:
 private:
 //VARIABLES
 	GLFWwindow* window;
-	const uint32_t WIDTH = 800;
-	const uint32_t HEIGHT = 600;
 	//Handles
 	VkInstance instance;
 
 //FUNCTIONS
+	bool checkValidationLayerSupport() {
+		uint32_t layerCount;
+		vkEnumerateInstanceLayerProperties(&layerCount, nullptr);
+		std::vector<VkLayerProperties> availableLayers(layerCount);
+		vkEnumerateInstanceLayerProperties(&layerCount, availableLayers.data());
+		return false;
+	}
+
 	void initWindow() {
 		glfwInit();
 		glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
@@ -49,7 +65,6 @@ private:
 		createInfo.ppEnabledExtensionNames = glfwExtensions;
 		createInfo.enabledLayerCount = 0;
 
-		VkResult result = vkCreateInstance(&createInfo, nullptr, &instance);
 		if (vkCreateInstance(&createInfo, nullptr, &instance) != VK_SUCCESS) {
 			throw std::runtime_error("failed to create instance!");
 		}
